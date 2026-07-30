@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: stg_dim_customers
+    description: "Cleaned customer dimension, one row per customer."
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: region
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['DE', 'CH', 'AT', 'DACH', 'Unknown']
+      - name: segment
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['SMB', 'Mid-Market', 'Enterprise', 'Unknown']
+
+  - name: stg_crm_subscriptions
+    description: "Cleaned subscription contracts, one row per subscription"
+    columns:
+      - name: subscription_id
+        tests: [unique, not_null]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_dim_customers')
+                field: customer_id
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'churned']
+
+  - name: stg_billing_invoices
+    description: "Cleaned invoices, one row per invoice."
+    columns:
+      - name: invoice_id
+        tests: [unique, not_null]
+      - name: subscription_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_crm_subscriptions')
+                field: subscription_id

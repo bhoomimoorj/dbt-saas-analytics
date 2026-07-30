@@ -1,0 +1,23 @@
+version: 2
+
+seeds:
+  - name: crm_subscriptions
+    description: "Contracts exported from the CRM. Contains SIGNED MRR. One row per contract; customers may have multiple contracts."
+    config:
+      column_types:
+        signed_mrr_eur: decimal(12,2)
+        start_date: date
+        end_date: date
+
+  - name: billing_invoices
+    description: "Monthly invoices from the billing system. Contains ACTUAL invoiced amounts per subscription per month."
+    config:
+      column_types:
+        invoice_month: date
+        actual_amount_eur: decimal(12,2)
+
+  - name: dim_customers
+    description: "Customer attributes from the CRM: region, segment, signup date."
+    config:
+      column_types:
+        signup_date: date

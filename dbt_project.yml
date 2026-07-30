@@ -1,0 +1,32 @@
+name: 'company_nrr'
+version: '1.0.0'
+config-version: 2
+
+profile: 'company_nrr'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  company_nrr:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
+
+# Seed types are pinned explicitly in seeds/properties.yml rather than left to
+# dbt's inference, since a couple of source columns (dates, decimals) are
+# ambiguous enough that guessing risked silently wrong types.
+
+seeds:
+  company_nrr:
+    +schema: raw

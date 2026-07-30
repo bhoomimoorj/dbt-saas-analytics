@@ -1,0 +1,11 @@
+# This profile uses DuckDB so the project runs fully locally — no warehouse, no credentials. 
+# dbt looks for profiles.yml in ~/.dbt/ by default, but I keep a copy here and point dbt at it 
+# via the DBT_PROFILES_DIR env var (see README), so everything stays self-contained in the repo.
+
+company_nrr:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: 'dbt_subscription_analytics.duckdb'
+      threads: 4

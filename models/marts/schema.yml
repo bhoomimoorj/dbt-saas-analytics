@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: nrr_by_cohort_month 
+    description: "Cohort based Net Revenue Retention by months since cohort start."
+    columns:
+      - name: cohort_month 
+        tests: [not_null]
+      - name: months_since_start
+        tests: [not_null]
+      - name: nrr 
+        tests: [not_null]
